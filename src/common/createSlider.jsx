@@ -210,7 +210,7 @@ export default function createSlider(Component) {
 
     addDocumentTouchEvents() {
       // just work for Chrome iOS Safari and Android Browser
-      this.onTouchMoveListener = addEventListener(this.document, 'touchmove', this.onTouchMove);
+      this.onTouchMoveListener = addEventListener(this.document, 'touchmove', this.onTouchMove, { passive: false });
       this.onTouchUpListener = addEventListener(this.document, 'touchend', this.onEnd);
     }
 

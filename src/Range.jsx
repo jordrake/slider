@@ -19,12 +19,14 @@ class Range extends React.Component {
     ]),
     allowCross: PropTypes.bool,
     disabled: PropTypes.bool,
+    enableKeyboard: PropTypes.bool,
     tabIndex: PropTypes.arrayOf(PropTypes.number),
     min: PropTypes.number,
     max: PropTypes.number,
   };
 
   static defaultProps = {
+    enableKeyboard: true,
     count: 1,
     allowCross: true,
     pushable: false,
@@ -54,8 +56,8 @@ class Range extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!('value' in nextProps || 'min' in nextProps || 'max' in nextProps)) return;
     if (this.props.min === nextProps.min &&
-        this.props.max === nextProps.max &&
-        shallowEqual(this.props.value, nextProps.value)) {
+      this.props.max === nextProps.max &&
+      shallowEqual(this.props.value, nextProps.value)) {
       return;
     }
 
@@ -149,6 +151,10 @@ class Range extends React.Component {
   }
 
   onKeyboard(e) {
+    if (!this.props.enableKeyboard) {
+      return;
+    }
+
     const valueMutator = utils.getKeyboardValueMutator(e);
 
     if (valueMutator) {
@@ -364,7 +370,7 @@ class Range extends React.Component {
     const handles = bounds.map((v, i) => {
       let _tabIndex = tabIndex[i] || 0;
       if (disabled || tabIndex[i] === null) {
-          _tabIndex = null;
+        _tabIndex = null;
       }
       return handleGenerator({
         className: classNames({
